@@ -20,7 +20,7 @@ function InvitationContent() {
 
   return (
     <>
-      <div className="fixed inset-0 z-[-1] bg-black">
+      {/* <div className="fixed inset-0 z-[-1] bg-black">
         <img 
           src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=3000&auto=format&fit=crop" 
           alt="Wedding Background" 
@@ -224,7 +224,8 @@ function InvitationContent() {
           </section>
 
         </div>
-      </main>
+      </main> */}
+      <h1>TEST</h1>
     </>
   );
 }
