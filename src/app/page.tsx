@@ -197,7 +197,7 @@ function InvitationContent() {
             <div className="relative z-10 flex flex-col items-center text-center px-4">
               <Church className="h-12 w-12 md:h-14 md:w-14 text-[#2f3542] mb-6 opacity-60" strokeWidth={1} />
               <span className="font-sans text-[10px] font-semibold tracking-[0.3em] text-[#57606f] uppercase mb-8">
-                Wedding Ceremony
+                Wedding Celebration
               </span>
               <h2 className="font-tangerine text-6xl text-neutral-900 mb-6 md:text-8xl">
                 Holy Matrimony
