@@ -14,8 +14,8 @@ export default function HomePage() {
     const to = params.get("to");
     if (to) setRecipient(to);
     
-    // Auto-play music if it was already started in the cover session
-    // (Though MusicProvider in layout.tsx should handle persistence)
+    // Auto-play music when the home hub is entered
+    playMusic();
   }, []);
 
   return (

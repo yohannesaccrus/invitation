@@ -3,11 +3,9 @@
 import { useState, useEffect } from "react";
 import { MailOpen } from "lucide-react";
 import Link from "next/link";
-import { useMusic } from "@/components/MusicProvider";
 
 export default function CoverPage() {
   const [recipient, setRecipient] = useState("Jangan Diganti!");
-  const { playMusic } = useMusic();
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -60,7 +58,6 @@ export default function CoverPage() {
           <div className="animate-slide-up" style={{ animationDelay: '0.6s', animationFillMode: 'both' }}>
             <Link 
               href={{ pathname: '/home', query: { to: recipient } }}
-              onClick={() => playMusic()}
               className="group relative flex items-center justify-center space-x-3 overflow-visible rounded-full bg-white/95 backdrop-blur-md px-14 py-5 font-sans text-sm font-semibold tracking-[0.2em] text-neutral-900 transition-all hover:bg-white active:scale-95 animate-ring-pulse hover:cursor-pointer touch-manipulation"
               style={{ zIndex: 9999 }}
             >

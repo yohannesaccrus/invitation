@@ -47,7 +47,7 @@ export function MusicProvider({ children }: { children: React.ReactNode }) {
       >
         <button
           onClick={toggleMute}
-          className="flex h-12 w-12 items-center justify-center rounded-full bg-white/60 text-neutral-900 shadow-lg backdrop-blur-md transition-transform hover:scale-110 active:scale-95 border border-white/40"
+          className="flex h-14 w-14 items-center justify-center rounded-full bg-white/70 text-neutral-900 shadow-2xl backdrop-blur-xl transition-all hover:scale-110 active:scale-95 border border-white/50 ring-1 ring-black/5"
           aria-label={isMuted ? "Unmute music" : "Mute music"}
         >
           {isMuted ? (
