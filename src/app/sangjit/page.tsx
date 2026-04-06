@@ -129,7 +129,7 @@ function SangjitContent() {
 
           <div className="mt-12 space-y-8">
             <div className="w-full overflow-hidden rounded-3xl border border-white/20 bg-white/5 p-1 md:p-2 shadow-2xl backdrop-blur-md">
-              <iframe 
+              {/* <iframe 
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3951.3068016810107!2d112.6209049!3d-7.9672115!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd6282a1e5aa25b%3A0xbc685824a832b05a!2sJavanine%20Resto!5e0!3m2!1sen!2sid!4v1775045523391!5m2!1sen!2sid" 
                 width="100%" 
                 height="300" 
@@ -138,7 +138,7 @@ function SangjitContent() {
                 loading="lazy" 
                 referrerPolicy="no-referrer-when-downgrade"
                 className="rounded-2xl opacity-90"
-              ></iframe>
+              ></iframe> */}
             </div>
 
             <Link 
