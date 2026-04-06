@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useRef, useState, useEffect } from "react";
+import { createContext, useContext, useRef, useState, useEffect, useCallback } from "react";
 import { usePathname } from "next/navigation";
 
 interface MusicContextType {
@@ -18,39 +18,48 @@ export function MusicProvider({ children }: { children: React.ReactNode }) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const pathname = usePathname();
 
-  useEffect(() => {
-    if (audioRef.current) {
-      audioRef.current.muted = isMuted;
-    }
-  }, [isMuted]);
-
   const toggleMute = () => {
-    // If not started, try to start it with this click
-    if (!isStarted) {
-      playMusic();
-      return;
-    }
+    if (!audioRef.current) return;
     
-    // If it was somehow paused but started, try to resume
-    if (audioRef.current && audioRef.current.paused && !isMuted) {
-      audioRef.current.play().catch(() => {});
-    }
-    
-    setIsMuted((prev) => !prev);
-  };
-
-  const playMusic = () => {
-    if (audioRef.current) {
-      // Force unmuted for the first playback attempt to avoid "silent play" state
+    // If paused (not started or stopped), play it unmuted
+    if (audioRef.current.paused) {
       audioRef.current.muted = false;
       audioRef.current.play().then(() => {
         setIsStarted(true);
         setIsMuted(false);
-      }).catch((err) => {
-        console.warn("Audio play blocked by browser:", err);
-      });
+      }).catch((err) => console.warn("Toggle play failed", err));
+    } else {
+      // If already playing, just toggle mute synchronously
+      const nextMuted = !isMuted;
+      audioRef.current.muted = nextMuted;
+      setIsMuted(nextMuted);
     }
   };
+
+  const playMusic = useCallback(() => {
+    if (!audioRef.current) return;
+    
+    if (!audioRef.current.paused) return; // Already playing
+
+    // Try unmuted first
+    audioRef.current.muted = false;
+    audioRef.current.play().then(() => {
+      setIsStarted(true);
+      setIsMuted(false);
+    }).catch((err) => {
+      console.warn("Unmuted play blocked:", err);
+      // Fallback to muted play
+      if (audioRef.current) {
+        audioRef.current.muted = true;
+        audioRef.current.play().then(() => {
+          setIsStarted(true);
+          setIsMuted(true);
+        }).catch((err2) => {
+          console.warn("Muted play also blocked:", err2);
+        });
+      }
+    });
+  }, []);
 
   const isVisible = pathname !== "/" || isStarted;
 
@@ -61,7 +70,6 @@ export function MusicProvider({ children }: { children: React.ReactNode }) {
         src="/ost.mp3" 
         loop 
         playsInline 
-        autoPlay={false}
       />
       
       {/* Floating Mute Toggle */}
