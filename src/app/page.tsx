@@ -30,7 +30,7 @@ function InvitationContent() {
       </div>
 
       <div 
-        className={`fixed inset-0 z-50 flex flex-col items-center justify-center transition-transform duration-1000 ease-[cubic-bezier(0.76,0,0.24,1)] ${
+        className={`fixed inset-0 z-50 flex flex-col items-center justify-center bg-black transition-transform duration-1000 ease-[cubic-bezier(0.76,0,0.24,1)] ${
           isCoverOpen ? "translate-y-0" : "-translate-y-full"
         }`}
       >
@@ -41,7 +41,7 @@ function InvitationContent() {
         />
         <div className="absolute inset-0 bg-neutral-900/60 backdrop-blur-sm" />
         
-        <div className="absolute top-25 left-0 right-0 z-20 flex flex-col items-center justify-center text-center px-6" style={{ animation: 'fade-in 1.5s ease-out forwards 0.8s', opacity: 0 }}>
+        <div className="absolute top-[15%] left-0 right-0 z-20 flex flex-col items-center justify-center text-center px-6" style={{ animation: 'fade-in 1.5s ease-out forwards 0.8s', opacity: 0 }}>
           <p className="font-sans text-xs font-semibold tracking-[0.2em] text-rose-200 uppercase mb-3">
             Dear, special guest
           </p>
