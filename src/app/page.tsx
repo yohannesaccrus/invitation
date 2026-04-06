@@ -55,7 +55,7 @@ function InvitationContent() {
           </div>
         </div>
 
-        <div className="relative z-10 flex flex-col items-center justify-center text-center px-6 pt-10">
+        <div className="relative z-30 flex flex-col items-center justify-center text-center px-6 pt-10">
           <p className="animate-fade-in font-sans text-sm font-medium tracking-[0.2em] text-rose-200 uppercase mb-8">
             The Wedding Of
           </p>
@@ -66,7 +66,7 @@ function InvitationContent() {
           <div className="animate-slide-up" style={{ animationDelay: '0.6s', animationFillMode: 'both' }}>
             <button 
               onClick={openInvitation}
-              className="group relative flex items-center justify-center space-x-3 overflow-visible rounded-full bg-white/95 backdrop-blur-md px-14 py-5 font-sans text-sm font-semibold tracking-[0.2em] text-neutral-900 transition-all hover:bg-white active:scale-95 animate-ring-pulse hover:cursor-pointer"
+              className="group relative flex items-center justify-center space-x-3 overflow-visible rounded-full bg-white/95 backdrop-blur-md px-14 py-5 font-sans text-sm font-semibold tracking-[0.2em] text-neutral-900 transition-all hover:bg-white active:scale-95 animate-ring-pulse hover:cursor-pointer touch-manipulation"
             >
               <span>OPEN INVITATION</span>
               <MailOpen className="h-4 w-4 text-neutral-400 transition-colors group-hover:text-rose-400" />
