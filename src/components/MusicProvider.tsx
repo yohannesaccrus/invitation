@@ -1,3 +1,5 @@
+"use client";
+
 import { createContext, useContext, useRef, useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 
