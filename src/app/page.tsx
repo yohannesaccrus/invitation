@@ -7,7 +7,7 @@ import { useMusic } from "@/components/MusicProvider";
 
 function InvitationContent() {
   const [recipient, setRecipient] = useState("Jangan Diganti!");
-  const [isCoverOpen, setIsCoverOpen] = useState(true);
+  const [isCoverOpen, setIsCoverOpen] = useState(false);
   const { isMuted, toggleMute, playMusic } = useMusic();
 
   useEffect(() => {
@@ -77,7 +77,7 @@ function InvitationContent() {
       </div> */}
 
 
-      <main className={`relative min-h-screen transition-opacity duration-1000 ${isCoverOpen ? 'opacity-100 pointer-events-none' : 'opacity-100'}`}>
+      <main className="relative min-h-screen">
         <div className="flex min-h-screen flex-col-reverse lg:flex-row">
           
           <section className="relative flex min-h-[50vh] flex-1 flex-col items-center justify-center overflow-hidden p-8 lg:min-h-screen">
