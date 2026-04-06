@@ -68,7 +68,7 @@ function WeddingContent() {
       <main className="relative z-10 mx-auto flex min-h-screen max-w-5xl flex-col items-center px-6 py-20 text-center">
         <div className="absolute top-10 left-6 lg:left-10">
           <Link 
-            href={{ pathname: '/', query: { to: recipient } }}
+            href={{ pathname: '/home', query: { to: recipient } }}
             className="group flex items-center space-x-2 text-[#2f3542] transition-colors hover:text-neutral-900"
           >
             <ArrowLeft className="h-5 w-5 transition-transform group-hover:-translate-x-1" />
