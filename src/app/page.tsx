@@ -23,14 +23,14 @@ function InvitationContent() {
 
   return (
     <>
-      <div className="fixed inset-0 z-[-1] bg-black">
+      {/* <div className="fixed inset-0 z-[-1] bg-black">
         <img 
           src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=3000&auto=format&fit=crop" 
           alt="Wedding Background" 
           className="h-full w-full object-cover opacity-50"
         />
         <div className="absolute inset-0 bg-neutral-900/30" />
-      </div>
+      </div> */}
 
       <div 
         className={`fixed inset-0 z-50 flex flex-col items-center justify-center bg-black transition-transform duration-1000 ease-[cubic-bezier(0.76,0,0.24,1)] ${
