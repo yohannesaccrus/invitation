@@ -1,15 +1,13 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
 import { MailOpen } from "lucide-react";
+import Link from "next/link";
 import { useMusic } from "@/components/MusicProvider";
 
 export default function CoverPage() {
   const [recipient, setRecipient] = useState("Jangan Diganti!");
-  const [isCoverOpen, setIsCoverOpen] = useState(true);
   const { playMusic } = useMusic();
-  const router = useRouter();
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -17,20 +15,9 @@ export default function CoverPage() {
     if (to) setRecipient(to);
   }, []);
 
-  const openInvitation = () => {
-    setIsCoverOpen(false);
-    playMusic();
-    
-    // Navigate to home after the slide-up animation completes (1s)
-    setTimeout(() => {
-      const params = new URLSearchParams(window.location.search);
-      router.push(`/home?${params.toString()}`);
-    }, 1000);
-  };
-
   return (
     <div className="relative min-h-screen overflow-hidden bg-black">
-      {/* Static Background behind the sliding cover */}
+      {/* Static Background */}
       <div className="fixed inset-0 z-0">
         <img 
           src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=3000&auto=format&fit=crop" 
@@ -40,11 +27,9 @@ export default function CoverPage() {
         <div className="absolute inset-0 bg-neutral-900/30" />
       </div>
 
-      {/* Sliding Cover Overlay */}
+      {/* Cover Overlay */}
       <div 
-        className={`fixed inset-0 z-50 flex flex-col items-center justify-center bg-black transition-transform duration-1000 ease-[cubic-bezier(0.76,0,0.24,1)] ${
-          isCoverOpen ? "translate-y-0" : "-translate-y-full"
-        }`}
+        className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black"
       >
         <img 
           src="/bg.jpg" 
@@ -73,14 +58,15 @@ export default function CoverPage() {
           </h1>
 
           <div className="animate-slide-up" style={{ animationDelay: '0.6s', animationFillMode: 'both' }}>
-            <button 
-              onClick={openInvitation}
-              style={{ zIndex: 9999 }}
+            <Link 
+              href={{ pathname: '/home', query: { to: recipient } }}
+              onClick={() => playMusic()}
               className="group relative flex items-center justify-center space-x-3 overflow-visible rounded-full bg-white/95 backdrop-blur-md px-14 py-5 font-sans text-sm font-semibold tracking-[0.2em] text-neutral-900 transition-all hover:bg-white active:scale-95 animate-ring-pulse hover:cursor-pointer touch-manipulation"
+              style={{ zIndex: 9999 }}
             >
               <span>OPEN INVITATION</span>
               <MailOpen className="h-4 w-4 text-neutral-400 transition-colors group-hover:text-rose-400" />
-            </button>
+            </Link>
           </div>
         </div>
       </div>
