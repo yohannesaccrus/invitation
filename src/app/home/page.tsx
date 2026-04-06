@@ -3,19 +3,45 @@
 import { useState, useEffect } from "react";
 import { Church } from "lucide-react";
 import Link from "next/link";
-import { useMusic } from "@/components/MusicProvider";
 
 export default function HomePage() {
   const [recipient, setRecipient] = useState("Jangan Diganti!");
-  const { isMuted, toggleMute, playMusic, isStarted } = useMusic();
+  const [isMuted, setIsMuted] = useState(false);
+  const [isStarted, setIsStarted] = useState(false);
+
+  useEffect(() => {
+    const audio = document.getElementById('bg-audio') as HTMLAudioElement;
+    if (audio) {
+      setIsMuted(audio.muted || audio.paused);
+      setIsStarted(!audio.paused);
+    }
+  }, []);
+
+  const toggleMute = () => {
+    const audio = document.getElementById('bg-audio') as HTMLAudioElement;
+    if (audio) {
+      if (audio.paused) {
+        audio.play().catch(err => console.warn("Failed to play from toggle:", err));
+        setIsMuted(false);
+        setIsStarted(true);
+      } else {
+        const nextMuted = !audio.muted;
+        audio.muted = nextMuted;
+        setIsMuted(nextMuted);
+      }
+    }
+  };
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const to = params.get("to");
     if (to) setRecipient(to);
     
-    // Auto-play music when the home hub is entered
-    playMusic();
+    // Attempt auto-play if not already playing
+    const audio = document.getElementById('bg-audio') as HTMLAudioElement;
+    if (audio && audio.paused) {
+      audio.play().catch(() => {});
+    }
   }, []);
 
   return (
@@ -133,6 +159,28 @@ export default function HomePage() {
             </Link>
           </div>
         </section>
+      </div>
+
+      {/* Floating Mute Toggle */}
+      <div 
+        className="fixed bottom-6 right-6 z-[9999] transition-opacity duration-1000"
+      >
+        <button
+          onClick={toggleMute}
+          className="flex h-14 w-14 items-center justify-center rounded-full bg-white/70 text-neutral-900 shadow-2xl backdrop-blur-xl transition-all hover:scale-110 active:scale-95 border border-white/50 ring-1 ring-black/5"
+          aria-label={isMuted ? "Unmute music" : "Mute music"}
+        >
+          {isMuted || !isStarted ? (
+            <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" clipRule="evenodd" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2" />
+            </svg>
+          ) : (
+            <svg className="h-6 w-6 animate-spin-slow" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+            </svg>
+          )}
+        </button>
       </div>
     </main>
   );

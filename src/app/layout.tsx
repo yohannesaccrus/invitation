@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Inter, Tangerine, Playfair_Display, Italiana } from "next/font/google";
 import "./globals.css";
-import { MusicProvider } from "@/components/MusicProvider";
 
 const cormorant = Cormorant_Garamond({
   variable: "--font-cormorant",
@@ -47,9 +46,8 @@ export default function RootLayout({
       className={`${cormorant.variable} ${inter.variable} ${tangerine.variable} ${playfair.variable} ${italiana.variable} antialiased`}
     >
       <body className="min-h-screen bg-neutral-50 font-sans text-neutral-900 selection:bg-rose-200">
-        <MusicProvider>
-          {children}
-        </MusicProvider>
+        <audio id="bg-audio" src="/ost.mp3" loop playsInline />
+        {children}
       </body>
     </html>
   );
