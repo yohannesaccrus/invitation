@@ -76,28 +76,6 @@ function InvitationContent() {
         </div>
       </div>
 
-      <div 
-        className={`fixed bottom-6 right-6 z-40 transition-opacity duration-1000 ${
-          isCoverOpen ? "opacity-0 pointer-events-none" : "opacity-100"
-        }`}
-      >
-        <button
-          onClick={toggleMute}
-          className="flex h-12 w-12 items-center justify-center rounded-full bg-white/60 text-neutral-900 shadow-lg backdrop-blur-md transition-transform hover:scale-110 active:scale-95 border border-white/40"
-          aria-label={isMuted ? "Unmute music" : "Mute music"}
-        >
-          {isMuted ? (
-            <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" clipRule="evenodd" />
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2" />
-            </svg>
-          ) : (
-            <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
-            </svg>
-          )}
-        </button>
-      </div>
 
       <main className={`relative min-h-screen transition-opacity duration-1000 ${isCoverOpen ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
         <div className="flex min-h-screen flex-col-reverse lg:flex-row">
