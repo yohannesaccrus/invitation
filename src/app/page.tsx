@@ -32,7 +32,7 @@ function InvitationContent() {
         <div className="absolute inset-0 bg-neutral-900/30" />
       </div> */}
 
-      <div 
+      {/* <div 
         className={`fixed inset-0 z-50 flex flex-col items-center justify-center bg-black transition-transform duration-1000 ease-[cubic-bezier(0.76,0,0.24,1)] ${
           isCoverOpen ? "translate-y-0" : "-translate-y-full"
         }`}
@@ -74,10 +74,10 @@ function InvitationContent() {
             </button>
           </div>
         </div>
-      </div>
+      </div> */}
 
 
-      <main className={`relative min-h-screen transition-opacity duration-1000 ${isCoverOpen ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
+      <main className={`relative min-h-screen transition-opacity duration-1000 ${isCoverOpen ? 'opacity-100 pointer-events-none' : 'opacity-100'}`}>
         <div className="flex min-h-screen flex-col-reverse lg:flex-row">
           
           <section className="relative flex min-h-[50vh] flex-1 flex-col items-center justify-center overflow-hidden p-8 lg:min-h-screen">
