@@ -1,8 +1,7 @@
 "use client";
 
-import { useState, Suspense, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
 import { ArrowLeft, Calendar, MapPin, Clock, Church, Heart } from "lucide-react";
 
 function Countdown() {
@@ -49,8 +48,13 @@ function Countdown() {
 }
 
 function WeddingContent() {
-  const searchParams = useSearchParams();
-  const recipient = searchParams.get("to") || "Guest";
+  const [recipient, setRecipient] = useState("Guest");
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const to = params.get("to");
+    if (to) setRecipient(to);
+  }, []);
 
   return (
     <div className="relative min-h-screen overflow-hidden bg-neutral-100 font-serif">
@@ -152,7 +156,7 @@ function WeddingContent() {
 
             <div className="mt-12 md:mt-14 space-y-8">
               <div className="w-full overflow-hidden rounded-3xl border border-[#2f3542]/10 bg-white/20 p-1 md:p-2 shadow-inner">
-                {/* <iframe 
+                <iframe 
                   src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3951.546861614909!2d112.6396390753446!3d-7.942301079112588!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd629c0433c5ccb%3A0x75690d6c79ab08f0!2sGereja%20Katolik%20Paroki%20St.%20Albertus%20de%20Trapani!5e0!3m2!1sen!2sid!4v1775046986049!5m2!1sen!2sid" 
                   width="100%" 
                   height="300" 
@@ -161,7 +165,7 @@ function WeddingContent() {
                   loading="lazy" 
                   referrerPolicy="no-referrer-when-downgrade"
                   className="rounded-2xl grayscale contrast-[0.9] opacity-80"
-                ></iframe> */}
+                ></iframe>
               </div>
 
               <Link 
@@ -207,9 +211,5 @@ function WeddingContent() {
 }
 
 export default function WeddingPage() {
-  return (
-    <Suspense fallback={<div className="min-h-screen bg-neutral-100" />}>
-      <WeddingContent />
-    </Suspense>
-  );
+  return <WeddingContent />;
 }

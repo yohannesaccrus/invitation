@@ -1,17 +1,20 @@
 "use client";
 
-import { useState, Suspense } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { MailOpen, Church } from "lucide-react";
-import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { useMusic } from "@/components/MusicProvider";
 
 function InvitationContent() {
-  const searchParams = useSearchParams();
-  const recipient = searchParams.get("to") || "Jangan Diganti!";
-  
+  const [recipient, setRecipient] = useState("Jangan Diganti!");
   const [isCoverOpen, setIsCoverOpen] = useState(true);
   const { isMuted, toggleMute, playMusic } = useMusic();
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const to = params.get("to");
+    if (to) setRecipient(to);
+  }, []);
 
   const openInvitation = () => {
     setIsCoverOpen(false);
@@ -230,9 +233,5 @@ function InvitationContent() {
 }
 
 export default function Home() {
-  return (
-    <Suspense fallback={<div className="min-h-screen bg-black" />}>
-      <InvitationContent />
-    </Suspense>
-  );
+  return <InvitationContent />;
 }
