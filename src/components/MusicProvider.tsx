@@ -25,17 +25,27 @@ export function MusicProvider({ children }: { children: React.ReactNode }) {
   }, [isMuted]);
 
   const toggleMute = () => {
+    // If not started, try to start it with this click
     if (!isStarted) {
       playMusic();
       return;
     }
+    
+    // If it was somehow paused but started, try to resume
+    if (audioRef.current && audioRef.current.paused && !isMuted) {
+      audioRef.current.play().catch(() => {});
+    }
+    
     setIsMuted((prev) => !prev);
   };
 
   const playMusic = () => {
     if (audioRef.current) {
+      // Force unmuted for the first playback attempt to avoid "silent play" state
+      audioRef.current.muted = false;
       audioRef.current.play().then(() => {
         setIsStarted(true);
+        setIsMuted(false);
       }).catch((err) => {
         console.warn("Audio play blocked by browser:", err);
       });
@@ -46,11 +56,17 @@ export function MusicProvider({ children }: { children: React.ReactNode }) {
 
   return (
     <MusicContext.Provider value={{ isMuted, toggleMute, playMusic, isStarted }}>
-      <audio ref={audioRef} src="/ost.mp3" loop />
+      <audio 
+        ref={audioRef} 
+        src="/ost.mp3" 
+        loop 
+        playsInline 
+        autoPlay={false}
+      />
       
       {/* Floating Mute Toggle */}
       <div 
-        className={`fixed bottom-6 right-6 z-[60] transition-opacity duration-1000 ${
+        className={`fixed bottom-6 right-6 z-[9999] transition-opacity duration-1000 ${
           isVisible ? "opacity-100" : "opacity-0 pointer-events-none"
         }`}
       >
