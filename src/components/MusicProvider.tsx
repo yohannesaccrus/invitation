@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useRef, useState, useEffect, useCallback } from "react";
 import { usePathname } from "next/navigation";
+import { Howl } from "howler";
 
 interface MusicContextType {
   isMuted: boolean;
@@ -15,63 +16,67 @@ const MusicContext = createContext<MusicContextType | undefined>(undefined);
 export function MusicProvider({ children }: { children: React.ReactNode }) {
   const [isMuted, setIsMuted] = useState(false);
   const [isStarted, setIsStarted] = useState(false);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const howlRef = useRef<Howl | null>(null);
   const pathname = usePathname();
 
-  const toggleMute = () => {
-    if (!audioRef.current) return;
-    
-    // If paused (not started or stopped), play it unmuted
-    if (audioRef.current.paused) {
-      audioRef.current.muted = false;
-      audioRef.current.play().then(() => {
-        setIsStarted(true);
-        setIsMuted(false);
-      }).catch((err) => console.warn("Toggle play failed", err));
-    } else {
-      // If already playing, just toggle mute synchronously
-      const nextMuted = !isMuted;
-      audioRef.current.muted = nextMuted;
-      setIsMuted(nextMuted);
+  // Initialize Howler on mount
+  useEffect(() => {
+    if (!howlRef.current) {
+      howlRef.current = new Howl({
+        src: ["/ost.mp3"],
+        loop: true,
+        html5: true, // Use HTML5 Audio for larger files like OSTs
+        preload: true,
+        volume: 1.0,
+      });
     }
+
+    return () => {
+      if (howlRef.current) {
+        howlRef.current.unload();
+        howlRef.current = null;
+      }
+    };
+  }, []);
+
+  const toggleMute = () => {
+    if (!howlRef.current) return;
+    
+    const sound = howlRef.current;
+    
+    // If not started, try to start it
+    if (!isStarted || !sound.playing()) {
+      sound.play();
+      setIsStarted(true);
+      setIsMuted(false);
+      sound.mute(false);
+      return;
+    }
+    
+    const nextMuted = !isMuted;
+    sound.mute(nextMuted);
+    setIsMuted(nextMuted);
   };
 
   const playMusic = useCallback(() => {
-    if (!audioRef.current) return;
+    if (!howlRef.current) return;
     
-    if (!audioRef.current.paused) return; // Already playing
+    const sound = howlRef.current;
+    
+    if (sound.playing()) return;
 
-    // Try unmuted first
-    audioRef.current.muted = false;
-    audioRef.current.play().then(() => {
-      setIsStarted(true);
-      setIsMuted(false);
-    }).catch((err) => {
-      console.warn("Unmuted play blocked:", err);
-      // Fallback to muted play
-      if (audioRef.current) {
-        audioRef.current.muted = true;
-        audioRef.current.play().then(() => {
-          setIsStarted(true);
-          setIsMuted(true);
-        }).catch((err2) => {
-          console.warn("Muted play also blocked:", err2);
-        });
-      }
-    });
+    // Howler handles the "unlocking" part, but we still call play
+    sound.play();
+    setIsStarted(true);
+    // Explicitly set muted state to false on first play to ensure sound
+    sound.mute(false);
+    setIsMuted(false);
   }, []);
 
   const isVisible = pathname !== "/" || isStarted;
 
   return (
     <MusicContext.Provider value={{ isMuted, toggleMute, playMusic, isStarted }}>
-      <audio 
-        ref={audioRef} 
-        src="/ost.mp3" 
-        loop 
-        playsInline 
-      />
-      
       {/* Floating Mute Toggle */}
       <div 
         className={`fixed bottom-6 right-6 z-[9999] transition-opacity duration-1000 ${
