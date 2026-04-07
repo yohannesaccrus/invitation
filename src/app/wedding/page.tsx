@@ -8,7 +8,8 @@ function Countdown() {
   const [timeLeft, setTimeLeft] = useState<{ days: number; hours: number; minutes: number; seconds: number }>({ days: 0, hours: 0, minutes: 0, seconds: 0 });
 
   useEffect(() => {
-    const targetDate = new Date("2026-06-06T09:00:00").getTime();
+    // 06 June 2026, 09:00:00 (Month is 0-indexed, so 5 is June)
+    const targetDate = new Date(2026, 5, 6, 9, 0, 0).getTime();
 
     const interval = setInterval(() => {
       const now = new Date().getTime();
@@ -39,7 +40,7 @@ function Countdown() {
         { label: "Secs", value: timeLeft.seconds },
       ].map((item) => (
         <div key={item.label} className="flex flex-col items-center">
-          <span className="font-serif text-5xl md:text-7xl text-[#2f3542]">{item.value.toString().padStart(2, '0')}</span>
+          <span className="font-serif text-5xl md:text-7xl text-[#2f3542]">{String(item.value).padStart(2, '0')}</span>
           <span className="font-sans text-xs md:text-sm font-bold tracking-[0.2em] text-[#57606f] uppercase mt-2">{item.label}</span>
         </div>
       ))}
